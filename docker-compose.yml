@@ -1,0 +1,10 @@
+version: "3"
+services:
+  boleto:
+    image: docker.io/bpgomes/s1-feirao-boleto:latest
+    build:
+      context: .
+    env_file:
+      - docker.env
+    ports:
+      - 127.0.0.1:3333:3333
