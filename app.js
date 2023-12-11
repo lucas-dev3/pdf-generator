@@ -29,7 +29,7 @@ app.post("/", (req, res) => {
       beneficiaryAddress:
         "R CEARA 553, NOVA IMPERATRIZ, IMPERATRIZ - MA Cep 65907-90",
       instructions:
-        "Após o vencimento cobrar multa de 2,00%, mais juros ao mês de 1,00%.",
+        "- Sr Caixa, não receber após o vencimento.",
       agency: "2365",
       agencyDigit: "0",
       account: 11552,
