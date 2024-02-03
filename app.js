@@ -67,7 +67,7 @@ app.post("/", (req, res) => {
       // },
       guarantor: {
         name: "FEIRAO DOS MOVEIS MAGAZINE LTDA",
-        registerNumber: "074.064.502/0001-12",
+        registerNumber: "05.391.441/0001-85",
         street: "R CEARA",
         number: "553",
         district: "NOVA IMPERATRIZ",
