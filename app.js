@@ -9,7 +9,7 @@ const puppeteer = require("puppeteer");
 const dotenv = require("dotenv");
 dotenv.config();
 
-mongoose.connect(process.env.MONGODB_URL);
+mongoose.connect(process.env.DATABASE_URL);
 
 const db = mongoose.connection;
 
@@ -62,7 +62,7 @@ app.get("/pdf/:id", async (req, res) => {
   const { id } = req.params;
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
-  await page.goto(`${process.env.BASE_URL}/${id}`, {
+  await page.goto(`http://localhost:3333/${id}`, {
     waitUntil: "networkidle2",
   });
   const pdf = await page.pdf({ format: "A4" });
