@@ -52,7 +52,6 @@ app.get("/:id", async (req, res) => {
       return res.status(404).send("Boleto não encontrado.");
     }
   } catch (error) {
-    console.error("Erro ao buscar boleto:", error);
     return res.status(500).send("Erro interno do servidor.");
   }
 });
@@ -66,7 +65,10 @@ app.get("/pdf/:id", async (req, res) => {
   if (!boleto) {
     return res.status(404).send("Boleto não encontrado.");
   }
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+  });
   const page = await browser.newPage();
   await page.goto(`http://localhost:3333/${id}`, {
     waitUntil: "networkidle2",
