@@ -36,7 +36,6 @@ app.get("/:id", async (req, res) => {
 
     if (boleto) {
       const bill = boleto.bill;
-      console.log("Boleto encontrado:", boleto);
       return res.render("boleto", {
         bill,
         parcela:
@@ -60,6 +59,13 @@ app.get("/:id", async (req, res) => {
 
 app.get("/pdf/:id", async (req, res) => {
   const { id } = req.params;
+  const collection = db.collection("transactions");
+  const boleto = await collection.findOne({
+    _id: new mongoose.Types.ObjectId(id),
+  });
+  if (!boleto) {
+    return res.status(404).send("Boleto não encontrado.");
+  }
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
   await page.goto(`http://localhost:3333/${id}`, {
