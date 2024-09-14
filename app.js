@@ -67,7 +67,7 @@ app.get("/carne/:store/:contract/:cpf", async (req, res) => {
     let bils = [];
     const collection = db.collection("transactions");
     for (let i = 0; i < data.length; i++) {
-      if (data[i].bill_number) {
+      if (data[i].bill_number && !data[i].payment_date) {
         const boleto = await collection.findOne({order_id: data[i].bill_number});
         if (boleto) {
           const bill = boleto.bill;
