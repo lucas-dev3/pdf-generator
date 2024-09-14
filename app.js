@@ -36,13 +36,10 @@ app.get("/:id", async (req, res) => {
 
     if (boleto) {
       const bill = boleto.bill;
-      console.log(boleto);
       return res.render("boleto", {
         bill,
         store:
-          boleto.installments.length > 1
-            ? ""
-            : boleto.installments[0].store_id,
+          boleto.installments.length > 1 ? "" : boleto.installments[0].store_id,
         parcela:
           boleto.installments.length > 1
             ? boleto.order_id
@@ -60,6 +57,72 @@ app.get("/:id", async (req, res) => {
     return res.status(500).send("Erro interno do servidor.");
   }
 });
+app.get("/carne/:store/:contract/:cpf", async (req, res) => {
+  const { store, contract, cpf } = req.params;
+  const cpfFormated = cpf.replace(/\D/g, "");
+  try {
+    const api_response = await fetch(`https://carne-feirao.s1solucoes.com.br/v1/booklet/${store}/${contract}/${cpfFormated}`);
+    let data = await api_response.json();
+    data =  data.details.details;
+    let bils = [];
+    const collection = db.collection("transactions");
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].bill_number) {
+        const boleto = await collection.findOne({order_id: data[i].bill_number});
+        if (boleto) {
+          const bill = boleto.bill;
+          bils.push({
+            bill,
+            id: boleto._id,
+            store:
+              boleto.installments.length > 1
+                ? ""
+                : boleto.installments[0].store_id,
+            parcela:
+              boleto.installments.length > 1
+                ? boleto.order_id
+                : boleto.installments[0].installment_number,
+            contrato:
+              boleto.installments.length > 1
+                ? "Boleto avulso"
+                : boleto.installments[0].contract_id,
+            oderTitle: boleto.installments.length > 1 ? "Ordem ID" : "Parcela",
+          });
+        }
+      }
+    }
+    return res.render("carne", { bils });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send("Erro interno do servidor.");
+  }
+});
+app.get("/carne/pdf/:store/:contract/:cpf", async (req, res) => {
+  const { store, contract, cpf } = req.params;
+  try{
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    });
+    const page = await browser.newPage();
+    await page.goto(`http://localhost:3333/carne/${store}/${contract}/${cpf}`, {
+      waitUntil: "networkidle2",
+    });
+    const pdf = await page.pdf({ format: "A4" });
+    await browser.close();
+  
+    res.set({
+      "Content-Type": "application/pdf",
+      "Content-Disposition": `attachment; filename=carne-${contract}.pdf`,
+      "Content-Length": pdf.length,
+    });
+  
+  }catch(e){
+    console.log(e);
+    return res.status(500).send("Erro interno do servidor.");
+  }
+
+});
 
 app.get("/pdf/:id", async (req, res) => {
   const { id } = req.params;
@@ -72,7 +135,7 @@ app.get("/pdf/:id", async (req, res) => {
   }
   const browser = await puppeteer.launch({
     headless: true,
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });
   const page = await browser.newPage();
   await page.goto(`http://localhost:3333/${id}`, {

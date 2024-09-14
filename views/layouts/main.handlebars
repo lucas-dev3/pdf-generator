@@ -220,6 +220,26 @@
             const valorCurrency = valor.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
             el.innerText = valorCurrency
         })
+
+        const qrcodes = document.querySelectorAll('.qrcode_value')
+        qrcodes.forEach((el) => {
+            const qr = el.value
+            const qrcode = el.nextElementSibling
+            QRCode.toDataURL(qr, {
+                errorCorrectionLevel: 'H'
+            }, function (err, url) {
+                if (err) {
+                    console.error(err);
+                    return;
+                }
+                var img = document.createElement('img');
+                img.style.width = '80px';
+                img.style.height = '80px';
+                img.src = url;
+
+                qrcode.appendChild(img)
+            });
+        })
     </script>
 </body>
 

@@ -1,3 +1,4 @@
+{{#each bils}}
 <div class="boleto">
     <div style=" width: 4cm;">
         <div class="left_section ">
@@ -5,19 +6,19 @@
         </div>
         <div class="left_section">
             <h1>Loja-contrato-parcela</h1>
-            <p id="">{{store}}-{{contrato}}-{{parcela}}</p>
+            <p id="">{{this.store}}-{{this.contrato}}-{{this.parcela}}</p>
         </div>
         <div class="left_section">
             <h1>Nosso numero</h1>
-            <p id="">{{bill.snumero10}}</p>
+            <p id="">{{this.bill.snumero10}}</p>
         </div>
         <div class="left_section">
             <h1>Vencimento</h1>
-            <p class="date_format">{{bill.dataVencto10}}</p>
+            <p class="date_format">{{this.bill.dataVencto10}}</p>
         </div>
         <div class="left_section">
             <h1>Valor</h1>
-            <p class="valor">{{bill.valMoeda10}}</p>
+            <p class="valor">{{this.bill.valMoeda10}}</p>
         </div>
         <div class="left_section">
             <h1>Valor Pago</h1>
@@ -26,7 +27,8 @@
         <div class="left_section">
             <h1>Pagador(a)</h1>
             <p style="font-size: 9px; font-weight: normal;">
-                {{bill.nomeSacado10}} - {{bill.cnpjSacado10}}{{bill.cnpjSacador10}} - {{bill.endSacado10}}
+                {{this.bill.nomeSacado10}} - {{this.bill.cnpjSacado10}}{{this.bill.cnpjSacador10}} -
+                {{this.bill.endSacado10}}
             </p>
         </div>
     </div>
@@ -40,7 +42,7 @@
                 <p>237-3</p>
             </div>
             <div class="" style="min-height: 10px;">
-                <p>{{bill.linhaDig10}}</p>
+                <p>{{this.bill.linhaDig10}}</p>
             </div>
         </div>
         <div class="center-content">
@@ -54,38 +56,38 @@
                 <div class="row">
                     <h1>Beneficiário final</h1>
                     <p id="">
-                        {{bill.cedente10}}
+                        {{this.bill.cedente10}}
                     </p>
                 </div>
                 <div class="rowgrid">
                     <div class="block">
                         <h1>Data do documento</h1>
                         <p class="date_format">
-                            {{bill.dataEmis10}}
+                            {{this.bill.dataEmis10}}
                         </p>
                     </div>
                     <div class="block">
                         <h1>N do documento</h1>
                         <p id="">
-                            {{bill.ctitloCobrCdent}}
+                            {{this.bill.ctitloCobrCdent}}
                         </p>
                     </div>
                     <div class="block">
                         <h1>Espécie Doc</h1>
                         <p id="">
-                            {{bill.especDocto10}}
+                            {{this.bill.especDocto10}}
                         </p>
                     </div>
                     <div class="block">
                         <h1>Aceite</h1>
                         <p id="">
-                            {{bill.aceite10}}
+                            {{this.bill.aceite10}}
                         </p>
                     </div>
                     <div class="block">
                         <h1>Data processamento</h1>
                         <p class="date_format">
-                            {{bill.dataReg10}}
+                            {{this.bill.dataReg10}}
                         </p>
                     </div>
                 </div>
@@ -122,15 +124,15 @@
                                 Pagador(a)
                             </h1>
                             <p id="">
-                                {{bill.nomeSacado10}}<br>
-                                CPF/cnpj: {{bill.cnpjSacado10}}<br>
-                                ENDEREÇO: {{bill.endSacado10}}
+                                {{this.bill.nomeSacado10}}<br>
+                                CPF/cnpj: {{this.bill.cnpjSacado10}}<br>
+                                ENDEREÇO: {{this.bill.endSacado10}}
                             </p>
                         </div>
                     </div>
                     <div class="right">
                         <h1>Pague via QrCode pix</h1>
-                         <input type="hidden" value="{{this.bill.wqrcdPdraoMercd}}" id="{{this.id}}_qrcode_value"
+                        <input type="hidden" value="{{this.bill.wqrcdPdraoMercd}}" id="{{this.id}}_qrcode_value"
                             class="qrcode_value">
                         <div id="{{this.id}}_qrcode"></div>
                     </div>
@@ -142,24 +144,24 @@
             <div class="colum">
                 <div class="right_section">
                     <h1>Loja-contrato-parcela</h1>
-                    <p id="">{{store}}-{{contrato}}-{{parcela}}</p>
+                    <p id="">{{this.store}}-{{this.contrato}}-{{this.parcela}}</p>
                 </div>
                 <div class="right_section">
                     <h1>Nosso numero</h1>
-                    <p id="">{{bill.snumero10}}</p>
+                    <p id="">{{this.bill.snumero10}}</p>
                 </div>
                 <div class="right_section">
                     <h1>Vencimento</h1>
                     <p id="" style="margin: 0; font-size: 20px;">
                         <strong class="date_format">
-                            {{bill.dataVencto10}}
+                            {{this.bill.dataVencto10}}
                         </strong>
                     </p>
                 </div>
                 <div class="right_section">
                     <h1>Valor do documento</h1>
-                    <p style="margin: 0; font-size: 20px;">{{bill.valor}}
-                        <strong class="valor">{{bill.valMoeda10}}</strong>
+                    <p style="margin: 0; font-size: 20px;">{{this.bill.valor}}
+                        <strong class="valor">{{this.bill.valMoeda10}}</strong>
                     </p>
                 </div>
                 <div class="right_section">
@@ -199,7 +201,7 @@
             return codigoBarras;
         }
         JsBarcode(".barcode",
-            linhaDigitavelParaCodigoBarras('{{bill.linhaDig10}}')
+            linhaDigitavelParaCodigoBarras('{{this.bill.linhaDig10}}')
             , {
                 format: "CODE128",
                 displayValue: false,
@@ -213,3 +215,4 @@
     {{!-- moment --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 </div>
+{{/each}}
