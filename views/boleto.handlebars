@@ -1,167 +1,236 @@
-<div style="display: flex; flex-direction: column;" class="boleto-container">
-    <div class="row">
-        <div class="col" style="padding: 0 30px 0 0;">
-            <img src="https://i.pinimg.com/originals/44/20/d9/4420d98b6f57afe398abc884b88c33de.png" alt=""
-                style="width: 120px;">
+<div class="boleto">
+    <div style=" width: 4cm;">
+        <div class="left_section ">
+            <h5 style="margin: 0;" class="pagador">Recibo do pagador</h5>
         </div>
-        <div class="col">
-            237-3
+        <div class="left_section">
+            <h1>Loja-contrato-parcela</h1>
+            <p id="">{{store}}-{{contrato}}-{{parcela}}</p>
         </div>
-        <div class="col">
-            {{bill.linhaDig10}}
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <h1>Local de Pagamento</h1>
-            <p>Pagável preferencialmente na rede Bradesco ou no Bradesco Expresso</p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <h1>Beneficiário</h1>
-            <p>Feirão dos móveis magazine LTDA</p>
-        </div>
-        <div class="col">
-            <h1>Agencia / Código cedente</h1>
-            <p>2365-0 / 11552-5</p>
-        </div>
-        <div class="col">
-            <h1>Data do vencimento</h1>
-            <p>{{bill.dataVencto10}}</p>
-        </div>
-        <div class="col">
-            <h1>Contrato / {{oderTitle}}</h1>
-            <p>{{contrato}} / {{parcela}}</p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <h1>Data do documento</h1>
-            <p id="data_documento">{{bill.dataEmis10}}</p>
-        </div>
-        <div class="col">
-            <h1>Data do processamento</h1>
-            <p id="data_processamento">{{bill.dataEmis10}}</p>
-        </div>
-        <div class="col">
-            <h1>Carteira</h1>
-            <p>9</p>
-        </div>
-        <div class="col">
-            <h1>N do documento</h1>
-            <p>{{bill.ctrlPartic10}}</p>
-        </div>
-        <div class="col">
+        <div class="left_section">
             <h1>Nosso numero</h1>
-            <p>{{bill.ctrlPartic10}}</p>
+            <p id="">{{bill.snumero10}}</p>
         </div>
-        <div class="col">
-            <h1>(=) Valor do documento</h1>
-            <p id="valor_boleto">{{bill.valMoeda10}}</p>
+        <div class="left_section">
+            <h1>Vencimento</h1>
+            <p class="date_format">{{bill.dataVencto10}}</p>
         </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <h1>(-) Desconto / Abatimento</h1>
-            <!-- <p>10/10/2020</p> -->
+        <div class="left_section">
+            <h1>Valor</h1>
+            <p class="valor">{{bill.valMoeda10}}</p>
         </div>
-        <div class="col">
-            <h1>(-)Outras deduções</h1>
-            <!-- <p>10/10/2020</p> -->
+        <div class="left_section">
+            <h1>Valor Pago</h1>
+            <p>.</p>
         </div>
-        <div class="col">
-            <h1>(+) Mora / Multa</h1>
-            <!-- <p>9</p> -->
-        </div>
-        <div class="col">
-            <h1>(+) Outros acréscimos</h1>
-            <!-- <p>122234</p> -->
-        </div>
-        <div class="col">
-            <h1>(=) Valor cobrado</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col" style="width: 30%;">
-            <h1>Pagador: {{bill.nomeSacado10}} </h1>
-            <p>CPF/CNPJ: {{bill.cnpjSacado10}}</p>
-            <P>{{bill.endSacado10}}, {{bill.cepSacado10}}-{{bill.cepcSacado10}} - {{bill.baiSacado10}} -
-                {{bill.cidSacado10}}/{{bill.ufSacado10}}</P>
-        </div>
-        <div class="col" style="height: 130px; display: flex; flex-direction: column; justify-content: center;">
-            <p>
-                observações: solicitamos que sejam cobrados juros e mora de 1% ao mês após o vencimento
+        <div class="left_section">
+            <h1>Pagador(a)</h1>
+            <p style="font-size: 9px; font-weight: normal;">
+                {{bill.nomeSacado10}} - {{bill.cnpjSacado10}}{{bill.cnpjSacador10}} - {{bill.endSacado10}}
             </p>
-            <svg id="barcode"></svg>
-
         </div>
-
-        <div class="col" style="margin-left: auto">
-            <div id="qrcode" style="width: 130px; height: 130px; padding: 0; margin: 0;">
+    </div>
+    <div>
+        <div class="top_section">
+            <div class="" style="border-right: 0.5px solid black;">
+                <img src="https://i.pinimg.com/originals/44/20/d9/4420d98b6f57afe398abc884b88c33de.png" alt=""
+                    style="height: 24px;">
+            </div>
+            <div class="" style="border-right: 0.5px solid black;">
+                <p>237-3</p>
+            </div>
+            <div class="" style="min-height: 10px;">
+                <p>{{bill.linhaDig10}}</p>
             </div>
         </div>
+        <div class="center-content">
+            <div class="colum">
+                <div class="row">
+                    <h1>Local de pagamento</h1>
+                    <p id="">
+                        Pagável em qualquer banco ou em uma de nossas lojas.
+                    </p>
+                </div>
+                <div class="row">
+                    <h1>Beneficiário final</h1>
+                    <p id="">
+                        {{bill.cedente10}}
+                    </p>
+                </div>
+                <div class="rowgrid">
+                    <div class="block">
+                        <h1>Data do documento</h1>
+                        <p class="date_format">
+                            {{bill.dataEmis10}}
+                        </p>
+                    </div>
+                    <div class="block">
+                        <h1>N do documento</h1>
+                        <p id="">
+                            {{bill.ctitloCobrCdent}}
+                        </p>
+                    </div>
+                    <div class="block">
+                        <h1>Espécie Doc</h1>
+                        <p id="">
+                            {{bill.especDocto10}}
+                        </p>
+                    </div>
+                    <div class="block">
+                        <h1>Aceite</h1>
+                        <p id="">
+                            {{bill.aceite10}}
+                        </p>
+                    </div>
+                    <div class="block">
+                        <h1>Data processamento</h1>
+                        <p class="date_format">
+                            {{bill.dataReg10}}
+                        </p>
+                    </div>
+                </div>
+                <div class="qrcoderow">
+                    <div class="left" style="flex: 1">
+                        <div class="top">
+                            <div class="block">
+                                <h1>Uso do banco</h1>
+                                <p id="">
+                                    .
+                                </p>
+                            </div>
+                            <div class="block">
+                                <h1>Carteira</h1>
+                                <p>
+                                    {{bill.cidtfdProdCobr}}
+                                </p>
+                            </div>
+                            <div class="block">
+                                <h1>Moeda</h1>
+                                <p id="">
+                                    {{bill.especMoeda10}}
+                                </p>
+                            </div>
+                            <div class="block">
+                                <h1>Quantidade</h1>
+                                <p id="">
+                                    {{bill.qtdeMoeda10}}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="bot">
+                            <h1>
+                                Pagador(a)
+                            </h1>
+                            <p id="">
+                                {{bill.nomeSacado10}}<br>
+                                CPF/cnpj: {{bill.cnpjSacado10}}<br>
+                                ENDEREÇO: {{bill.endSacado10}}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <h1>Pague via QrCode pix</h1>
+                        <div class="qrcode"></div>
+                    </div>
+                </div>
+                <div style="width: 100%; padding-top: 1mm;">
+                    <svg class="barcode"></svg>
+                </div>
+            </div>
+            <div class="colum">
+                <div class="right_section">
+                    <h1>Loja-contrato-parcela</h1>
+                    <p id="">{{store}}-{{contrato}}-{{parcela}}</p>
+                </div>
+                <div class="right_section">
+                    <h1>Nosso numero</h1>
+                    <p id="">{{bill.snumero10}}</p>
+                </div>
+                <div class="right_section">
+                    <h1>Vencimento</h1>
+                    <p id="" style="margin: 0; font-size: 20px;">
+                        <strong class="date_format">
+                            {{bill.dataVencto10}}
+                        </strong>
+                    </p>
+                </div>
+                <div class="right_section">
+                    <h1>Valor do documento</h1>
+                    <p style="margin: 0; font-size: 20px;">{{bill.valor}}
+                        <strong class="valor">{{bill.valMoeda10}}</strong>
+                    </p>
+                </div>
+                <div class="right_section">
+                    <h1>Valor Pago</h1>
+                    <p>.</p>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h1>Beneficiário final</h1>
+                <p></p>
+            </div>
+        </div>
+
     </div>
-</div>
+    <script src="https://cdn.jsdelivr.net/jsbarcode/3.6.0/JsBarcode.all.min.js"></script>
+    <script>
+        function linhaDigitavelParaCodigoBarras(linhaDigitavel) {
+            // Remover quaisquer caracteres não numéricos
+            let digitos = linhaDigitavel.replace(/\D/g, '');
+            // Verificar se a linha digitável tem o comprimento correto
+            if (digitos.length !== 47) {
+                return ""
+            }
 
-<script src="https://cdn.jsdelivr.net/jsbarcode/3.6.0/JsBarcode.all.min.js"></script>
-<script>
-    function linhaDigitavelParaCodigoBarras(linhaDigitavel) {
-        // Remover quaisquer caracteres não numéricos
-        let digitos = linhaDigitavel.replace(/\D/g, '');
-        console.log(digitos)
-        // Verificar se a linha digitável tem o comprimento correto
-        if (digitos.length !== 47) {
-            return ""
+            // Reorganizar os campos conforme especificado pela FEBRABAN
+            let codigoBarras = digitos.substring(0, 4) +   // Campo 1: Posições 1-4
+                digitos.substring(32, 33) + // Campo 5: Posição 33
+                digitos.substring(33, 37) + // Campo 6: Posições 34-37
+                digitos.substring(37, 47) + // Campo 7: Posições 38-47
+                digitos.substring(4, 9) +   // Campo 2: Posições 5-9
+                digitos.substring(10, 20) + // Campo 3: Posições 11-20
+                digitos.substring(21, 31);  // Campo 4: Posições 22-31
+
+            return codigoBarras;
         }
+        JsBarcode(".barcode",
+            linhaDigitavelParaCodigoBarras('{{bill.linhaDig10}}')
+            , {
+                format: "CODE128",
+                displayValue: false,
+                width: 1.2,
+                height: 30,
+                margin: 0,
+            });
+    </script>
 
-        // Reorganizar os campos conforme especificado pela FEBRABAN
-        let codigoBarras = digitos.substring(0, 4) +   // Campo 1: Posições 1-4
-            digitos.substring(32, 33) + // Campo 5: Posição 33
-            digitos.substring(33, 37) + // Campo 6: Posições 34-37
-            digitos.substring(37, 47) + // Campo 7: Posições 38-47
-            digitos.substring(4, 9) +   // Campo 2: Posições 5-9
-            digitos.substring(10, 20) + // Campo 3: Posições 11-20
-            digitos.substring(21, 31);  // Campo 4: Posições 22-31
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+    {{!-- moment --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    
+    <script>
+        const qr = '{{bill.wqrcdPdraoMercd}}'
+        // replace every all space with %20
+        QRCode.toDataURL(qr, {
+            errorCorrectionLevel: 'H'
+        }, function (err, url) {
+            if (err) {
+                console.error(err);
+                return;
+            }
+            var img = document.createElement('img');
+            img.style.width = '80px';
+            img.style.height = '80px';
+            img.src = url;
 
-        return codigoBarras;
-    }
-    JsBarcode("#barcode",
-        linhaDigitavelParaCodigoBarras('{{bill.linhaDig10}}')
-        , {
-            format: "CODE128",
-            displayValue: false,
-            width: 1.3,
-            height: 70,
-            margin: 4,
+            const qrs = document.querySelectorAll('.qrcode');
+            for (let i = 0; i < qrs.length; i++) {
+                qrs[i].appendChild(img);
+            }
         });
-</script>
 
-<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
-{{!-- moment --}}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-<script>
-    const qr = '{{bill.wqrcdPdraoMercd}}'
-    // replace every all space with %20
-    console.log(qr)
-    QRCode.toDataURL(qr, {
-        errorCorrectionLevel: 'H'
-    }, function (err, url) {
-        if (err) {
-            console.error(err);
-            return;
-        }
-        var img = document.createElement('img');
-        img.style.width = '130px';
-        img.style.height = '130px';
-        img.src = url;
-        document.getElementById('qrcode').appendChild(img);
-    });
-    const valor = {{ bill.valMoeda10 }} / 100
-    const valorCurrency = valor.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
-    document.getElementById('valor_boleto').innerText = valorCurrency
-    const data = moment('{{bill.dataEmis10}}', 'DDMMYYYY').format('DD/MM/YYYY')
-    document.getElementById('data_documento').innerText = data
-    document.getElementById('data_processamento').innerText = data
-
-</script>
+    </script>
+</div>

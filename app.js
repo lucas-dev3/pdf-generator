@@ -36,8 +36,13 @@ app.get("/:id", async (req, res) => {
 
     if (boleto) {
       const bill = boleto.bill;
+      console.log(boleto);
       return res.render("boleto", {
         bill,
+        store:
+          boleto.installments.length > 1
+            ? ""
+            : boleto.installments[0].store_id,
         parcela:
           boleto.installments.length > 1
             ? boleto.order_id
