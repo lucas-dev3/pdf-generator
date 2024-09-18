@@ -110,13 +110,14 @@ app.get("/carne/pdf/:store/:contract/:cpf", async (req, res) => {
     });
     const pdf = await page.pdf({ format: "A4" });
     await browser.close();
-  
+    
     res.set({
       "Content-Type": "application/pdf",
       "Content-Disposition": `attachment; filename=carne-${contract}.pdf`,
       "Content-Length": pdf.length,
     });
-  
+
+    return res.send(pdf);
   }catch(e){
     console.log(e);
     return res.status(500).send("Erro interno do servidor.");
