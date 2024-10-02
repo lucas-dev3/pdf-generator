@@ -21,7 +21,7 @@
         </div>
         <div class="left_section">
             <h1>Valor Pago</h1>
-            <p>.</p>
+            <p style="color: transparent;">.</p>
         </div>
         <div class="left_section">
             <h1>Pagador(a)</h1>
@@ -94,9 +94,7 @@
                         <div class="top">
                             <div class="block">
                                 <h1>Uso do banco</h1>
-                                <p id="">
-                                    .
-                                </p>
+                                <p style="color: transparent;">.</p>
                             </div>
                             <div class="block">
                                 <h1>Carteira</h1>
@@ -123,14 +121,14 @@
                             </h1>
                             <p id="">
                                 {{bill.nomeSacado10}}<br>
-                                CPF/cnpj: {{bill.cnpjSacado10}}<br>
+                                CPF/CNPJ: <span class="cpfOrCnpj">{{bill.cnpjSacado10}}{{bill.cnpjSacador10}}</span><br>
                                 ENDEREÇO: {{bill.endSacado10}}
                             </p>
                         </div>
                     </div>
                     <div class="right">
                         <h1>Pague via QrCode pix</h1>
-                         <input type="hidden" value="{{this.bill.wqrcdPdraoMercd}}" id="{{this.id}}_qrcode_value"
+                        <input type="hidden" value="{{this.bill.wqrcdPdraoMercd}}" id="{{this.id}}_qrcode_value"
                             class="qrcode_value">
                         <div id="{{this.id}}_qrcode"></div>
                     </div>
@@ -164,7 +162,8 @@
                 </div>
                 <div class="right_section">
                     <h1>Valor Pago</h1>
-                    <p>.</p>
+                    <p style="color: transparent;">.</p>
+
                 </div>
 
             </div>

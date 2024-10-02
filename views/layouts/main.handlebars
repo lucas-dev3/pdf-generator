@@ -241,6 +241,18 @@
             });
         })
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-masker"></script>
+    <script>
+        const cpfs = document.querySelectorAll('.cpfOrCnpj')
+        for (let i = 0; i < cpfs.length; i++) {
+            const cpf = cpfs[i].innerText
+            if (cpf.length === 11) {
+                cpfs[i].innerText = VMasker.toPattern(cpf, '999.999.999-99')
+            } else {
+                cpfs[i].innerText = VMasker.toPattern(cpf, '99.999.999/9999-99')
+            }
+        }
+    </script>
 </body>
 
 </html>
