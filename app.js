@@ -67,6 +67,7 @@ app.get("/carne/:store/:contract/:cpf", async (req, res) => {
     console.log("retorno da api de carne----------");
     console.log(data);
     let bils = [];
+    let error = "";
     const collection = db.collection("transactions");
     for (let i = 0; i < data.length; i++) {
       if (data[i].bill_number && !data[i].payment_date) {
@@ -93,7 +94,10 @@ app.get("/carne/:store/:contract/:cpf", async (req, res) => {
         }
       }
     }
-    return res.render("carne", { bils });
+    if (bils.length === 0) {
+      error = "Boletos não encontrados.";
+    }
+    return res.render("carne", { bils, error});
   } catch (error) {
     console.log(error);
     return res.status(500).send("Erro interno do servidor.");
