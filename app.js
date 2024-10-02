@@ -64,8 +64,11 @@ app.get("/carne/:store/:contract/:cpf", async (req, res) => {
     const api_response = await fetch(`https://carne-feirao.s1solucoes.com.br/v1/booklet/${store}/${contract}/${cpfFormated}`);
     let data = await api_response.json();
     data =  data.details.details;
+    console.log("Consultando api ----------");
+    console.log(`https://carne-feirao.s1solucoes.com.br/v1/booklet/${store}/${contract}/${cpfFormated}\n\n\n`);
     console.log("retorno da api de carne----------");
     console.log(data);
+    console.log("\n\n\n--------------------------------------\n\n\n");
     let bils = [];
     let error = "";
     const collection = db.collection("transactions");
