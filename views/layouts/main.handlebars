@@ -191,10 +191,12 @@
         .qrcoderow .left .bot {
             padding: 1mm;
         }
-        .qrcoderow .left .bot p{
+
+        .qrcoderow .left .bot p {
             margin: 0;
             text-align: start;
         }
+
         .qrcoderow .right {
             border-left: 1px solid black;
             width: 34mm;
@@ -203,6 +205,19 @@
         .qrcoderow .right h1 {
             font-size: 10px;
             margin: 0;
+        }
+
+        .error {
+            color: #fff;
+            background-color: red;
+            padding: 10px 20px;
+            margin-bottom: 30px;
+        }
+
+        @media print {
+            .error {
+                display: none;
+            }
         }
     </style>
 </head>

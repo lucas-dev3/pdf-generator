@@ -12,6 +12,7 @@ dotenv.config();
 mongoose.connect(process.env.DATABASE_URL);
 
 const db = mongoose.connection;
+const SELF_BASE_URL = process.env.SELF_BASE_URL || "https://boleto-feirao.s1solucoes.com.br";
 
 db.on("error", console.error.bind(console, "Erro na conexão ao MongoDB:"));
 db.once("open", function () {
@@ -125,7 +126,7 @@ app.get("/carne/pdf/:store/:contract/:cpf", async (req, res) => {
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
     const page = await browser.newPage();
-    await page.goto(`http://localhost:3333/carne/${store}/${contract}/${cpf}`, {
+    await page.goto(`${SELF_BASE_URL}/carne/${store}/${contract}/${cpf}`, {
       waitUntil: "networkidle2",
     });
     const pdf = await page.pdf({ format: "A4" });
@@ -158,7 +159,7 @@ app.get("/pdf/:id", async (req, res) => {
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });
   const page = await browser.newPage();
-  await page.goto(`http://localhost:3333/${id}`, {
+  await page.goto(`${SELF_BASE_URL}/${id}`, {
     waitUntil: "networkidle2",
   });
   const pdf = await page.pdf({ format: "A4" });
