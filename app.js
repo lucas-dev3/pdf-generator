@@ -61,11 +61,15 @@ app.get("/carne/:store/:contract/:cpf", async (req, res) => {
   const { store, contract, cpf } = req.params;
   const cpfFormated = cpf.replace(/\D/g, "");
   try {
-    const api_response = await fetch(`https://carne-feirao.s1solucoes.com.br/v1/booklet/${store}/${contract}/${cpfFormated}`);
+    const api_response = await fetch(
+      `https://carne-feirao.s1solucoes.com.br/v1/booklet/${store}/${contract}/${cpfFormated}`
+    );
     let data = await api_response.json();
-    data =  data.details.details;
+    data = data.details.details;
     console.log("Consultando api ----------");
-    console.log(`https://carne-feirao.s1solucoes.com.br/v1/booklet/${store}/${contract}/${cpfFormated}\n\n\n`);
+    console.log(
+      `https://carne-feirao.s1solucoes.com.br/v1/booklet/${store}/${contract}/${cpfFormated}\n\n\n`
+    );
     console.log("retorno da api de carne----------");
     console.log(data);
     console.log("\n\n\n--------------------------------------\n\n\n");
@@ -74,33 +78,40 @@ app.get("/carne/:store/:contract/:cpf", async (req, res) => {
     const collection = db.collection("transactions");
     for (let i = 0; i < data.length; i++) {
       if (data[i].bill_number && !data[i].payment_date) {
-        const boleto = await collection.findOne({order_id: data[i].bill_number});
+        const boleto = await collection.findOne({
+          order_id: data[i].bill_number,
+        });
         if (boleto) {
           const bill = boleto.bill;
-          bils.push({
-            bill,
-            id: boleto._id,
-            store:
-              boleto.installments.length > 1
-                ? ""
-                : boleto.installments[0].store_id,
-            parcela:
-              boleto.installments.length > 1
-                ? boleto.order_id
-                : boleto.installments[0].installment_number,
-            contrato:
-              boleto.installments.length > 1
-                ? "Boleto avulso"
-                : boleto.installments[0].contract_id,
-            oderTitle: boleto.installments.length > 1 ? "Ordem ID" : "Parcela",
-          });
+          if (bill.errorMessage) {
+            error += `Erro no boleto ${boleto.order_id} - ${bill.errorMessage}\n\n`; 
+          } else {
+            bils.push({
+              bill,
+              id: boleto._id,
+              store:
+                boleto.installments.length > 1
+                  ? ""
+                  : boleto.installments[0].store_id,
+              parcela:
+                boleto.installments.length > 1
+                  ? boleto.order_id
+                  : boleto.installments[0].installment_number,
+              contrato:
+                boleto.installments.length > 1
+                  ? "Boleto avulso"
+                  : boleto.installments[0].contract_id,
+              oderTitle:
+                boleto.installments.length > 1 ? "Ordem ID" : "Parcela",
+            });
+          }
         }
       }
     }
-    if (bils.length === 0) {
-      error = "Boletos não encontrados.";
+    if (bils.length === 0 && !error) {
+      error = "Nenhum boleto encontrado.";
     }
-    return res.render("carne", { bils, error});
+    return res.render("carne", { bils, error });
   } catch (error) {
     console.log(error);
     return res.status(500).send("Erro interno do servidor.");
@@ -108,7 +119,7 @@ app.get("/carne/:store/:contract/:cpf", async (req, res) => {
 });
 app.get("/carne/pdf/:store/:contract/:cpf", async (req, res) => {
   const { store, contract, cpf } = req.params;
-  try{
+  try {
     const browser = await puppeteer.launch({
       headless: true,
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
@@ -119,7 +130,7 @@ app.get("/carne/pdf/:store/:contract/:cpf", async (req, res) => {
     });
     const pdf = await page.pdf({ format: "A4" });
     await browser.close();
-    
+
     res.set({
       "Content-Type": "application/pdf",
       "Content-Disposition": `attachment; filename=carne-${contract}.pdf`,
@@ -127,11 +138,10 @@ app.get("/carne/pdf/:store/:contract/:cpf", async (req, res) => {
     });
 
     return res.send(pdf);
-  }catch(e){
+  } catch (e) {
     console.log(e);
     return res.status(500).send("Erro interno do servidor.");
   }
-
 });
 
 app.get("/pdf/:id", async (req, res) => {
