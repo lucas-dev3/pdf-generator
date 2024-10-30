@@ -9,7 +9,7 @@
         </div>
         <div class="left_section">
             <h1>Nosso numero</h1>
-            <p id="">{{bill.snumero10}}</p>
+            <p id="">{{bill.ctitloCobrCdent}}</p>
         </div>
         <div class="left_section">
             <h1>Vencimento</h1>
@@ -26,7 +26,8 @@
         <div class="left_section">
             <h1>Pagador(a)</h1>
             <p style="font-size: 9px; font-weight: normal;">
-                {{bill.nomeSacado10}} - {{bill.cnpjSacado10}}{{bill.cnpjSacador10}} - {{bill.endSacado10}}
+                {{client_id}} - {{bill.nomeSacado10}}
+                {{bill.endSacado10}}
             </p>
         </div>
     </div>
@@ -54,7 +55,7 @@
                 <div class="row">
                     <h1>Beneficiário final</h1>
                     <p id="">
-                        {{bill.cedente10}}
+                        {{bill.cedente10}} - <span>05.391.441/0001-85</span>
                     </p>
                 </div>
                 <div class="rowgrid">
@@ -119,22 +120,28 @@
                             <h1>
                                 Pagador(a)
                             </h1>
-                            <p id="">
+                            <p id="" style="font-size: 8px;">
                                 {{bill.nomeSacado10}}<br>
-                                CPF/CNPJ: <span class="cpfOrCnpj">{{bill.cnpjSacado10}}{{bill.cnpjSacador10}}</span><br>
+                                CPF/CNPJ: <span
+                                    class="cpfOrCnpj">{{bill.cnpjSacador10}}</span><br>
                                 ENDEREÇO: {{bill.endSacado10}}
                             </p>
+                            <span>
+                                {{messageBill}}
+                            </span>
                         </div>
                     </div>
                     <div class="right">
                         <h1>Pague via QrCode pix</h1>
-                        <input type="hidden" value="{{this.bill.wqrcdPdraoMercd}}" id="{{this.id}}_qrcode_value"
+                        <input type="hidden" value="{{bill.wqrcdPdraoMercd}}" id="{{id}}_qrcode_value"
                             class="qrcode_value">
-                        <div id="{{this.id}}_qrcode"></div>
+                        <div id="{{id}}_qrcode"></div>
                     </div>
                 </div>
                 <div style="width: 100%; padding-top: 1mm;">
-                    <svg class="barcode"></svg>
+                    <input type="hidden" value="{{bill.linhaDig10}}" id="{{id}}_barcode_value"
+                        class="barcode_value">
+                    <svg class="barcode_{{id}}"></svg>
                 </div>
             </div>
             <div class="colum">
@@ -144,7 +151,7 @@
                 </div>
                 <div class="right_section">
                     <h1>Nosso numero</h1>
-                    <p id="">{{bill.snumero10}}</p>
+                    <p id="">{{bill.ctitloCobrCdent}}</p>
                 </div>
                 <div class="right_section">
                     <h1>Vencimento</h1>
@@ -163,7 +170,6 @@
                 <div class="right_section">
                     <h1>Valor Pago</h1>
                     <p style="color: transparent;">.</p>
-
                 </div>
 
             </div>
@@ -176,37 +182,7 @@
         </div>
 
     </div>
-    <script src="https://cdn.jsdelivr.net/jsbarcode/3.6.0/JsBarcode.all.min.js"></script>
-    <script>
-        function linhaDigitavelParaCodigoBarras(linhaDigitavel) {
-            // Remover quaisquer caracteres não numéricos
-            let digitos = linhaDigitavel.replace(/\D/g, '');
-            // Verificar se a linha digitável tem o comprimento correto
-            if (digitos.length !== 47) {
-                return ""
-            }
-
-            // Reorganizar os campos conforme especificado pela FEBRABAN
-            let codigoBarras = digitos.substring(0, 4) +   // Campo 1: Posições 1-4
-                digitos.substring(32, 33) + // Campo 5: Posição 33
-                digitos.substring(33, 37) + // Campo 6: Posições 34-37
-                digitos.substring(37, 47) + // Campo 7: Posições 38-47
-                digitos.substring(4, 9) +   // Campo 2: Posições 5-9
-                digitos.substring(10, 20) + // Campo 3: Posições 11-20
-                digitos.substring(21, 31);  // Campo 4: Posições 22-31
-
-            return codigoBarras;
-        }
-        JsBarcode(".barcode",
-            linhaDigitavelParaCodigoBarras('{{bill.linhaDig10}}')
-            , {
-                format: "CODE128",
-                displayValue: false,
-                width: 1.2,
-                height: 30,
-                margin: 0,
-            });
-    </script>
+    
 
     <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
     {{!-- moment --}}

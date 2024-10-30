@@ -12,7 +12,8 @@ dotenv.config();
 mongoose.connect(process.env.DATABASE_URL);
 
 const db = mongoose.connection;
-const SELF_BASE_URL = process.env.SELF_BASE_URL || "https://boleto-feirao.s1solucoes.com.br";
+const SELF_BASE_URL =
+  process.env.SELF_BASE_URL || "https://boleto-feirao.s1solucoes.com.br";
 
 db.on("error", console.error.bind(console, "Erro na conexão ao MongoDB:"));
 db.once("open", function () {
@@ -50,6 +51,10 @@ app.get("/:id", async (req, res) => {
             ? "Boleto avulso"
             : boleto.installments[0].contract_id,
         oderTitle: boleto.installments.length > 1 ? "Ordem ID" : "Parcela",
+        messageBill:
+                bill.cidtfdProdCobr == "4"
+                  ? "ATENÇÃO: Após o vencimento será cobrado juros de 0,4% ao dia."
+                  : "ATENÇÃO: Sr Caixa, não receber após o vencimento",
       });
     } else {
       return res.status(404).send("Boleto não encontrado.");
@@ -66,6 +71,8 @@ app.get("/carne/:store/:contract/:cpf", async (req, res) => {
       `https://carne-feirao.s1solucoes.com.br/v1/booklet/${store}/${contract}/${cpfFormated}`
     );
     let data = await api_response.json();
+    console.log("retorno da api de carne completa----------");
+    console.log(data);
     data = data.details.details;
     console.log("Consultando api ----------");
     console.log(
@@ -85,11 +92,12 @@ app.get("/carne/:store/:contract/:cpf", async (req, res) => {
         if (boleto) {
           const bill = boleto.bill;
           if (bill.errorMessage) {
-            error += `Erro no boleto ${boleto.order_id} - ${bill.errorMessage}\n\n`; 
+            error += `Erro no boleto ${boleto.order_id} - ${bill.errorMessage}\n\n`;
           } else {
             bils.push({
               bill,
               id: boleto._id,
+              client_id: boleto.client_id,
               store:
                 boleto.installments.length > 1
                   ? ""
@@ -104,6 +112,10 @@ app.get("/carne/:store/:contract/:cpf", async (req, res) => {
                   : boleto.installments[0].contract_id,
               oderTitle:
                 boleto.installments.length > 1 ? "Ordem ID" : "Parcela",
+              messageBill:
+                bill.cidtfdProdCobr == "4"
+                  ? "ATENÇÃO: Após o vencimento será cobrado juros de 0,4% ao dia."
+                  : "ATENÇÃO: Sr Caixa, não receber após o vencimento",
             });
           }
         }
