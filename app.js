@@ -5,8 +5,9 @@ const bodyParser = require("body-parser");
 var cors = require("cors");
 const { engine } = require("express-handlebars");
 const mongoose = require("mongoose");
-const puppeteer = require("puppeteer");
 const dotenv = require("dotenv");
+const playwright = require('playwright');
+
 dotenv.config();
 
 mongoose.connect(process.env.DATABASE_URL);
@@ -52,9 +53,9 @@ app.get("/:id", async (req, res) => {
             : boleto.installments[0].contract_id,
         oderTitle: boleto.installments.length > 1 ? "Ordem ID" : "Parcela",
         messageBill:
-                bill.cidtfdProdCobr == "4"
-                  ? "ATENÇÃO: Após o vencimento será cobrado juros de 0,4% ao dia."
-                  : "ATENÇÃO: Sr Caixa, não receber após o vencimento",
+          bill.cidtfdProdCobr == "4"
+            ? "ATENÇÃO: Após o vencimento será cobrado juros de 0,4% ao dia."
+            : "ATENÇÃO: Sr Caixa, não receber após o vencimento",
       });
     } else {
       return res.status(404).send("Boleto não encontrado.");
@@ -156,7 +157,6 @@ app.get("/carne/pdf/:store/:contract/:cpf", async (req, res) => {
     return res.status(500).send("Erro interno do servidor.");
   }
 });
-
 app.get("/pdf/:id", async (req, res) => {
   const { id } = req.params;
   const collection = db.collection("transactions");
@@ -166,23 +166,16 @@ app.get("/pdf/:id", async (req, res) => {
   if (!boleto) {
     return res.status(404).send("Boleto não encontrado.");
   }
-  console.log("start puppeteer")
-  const browser = await puppeteer.launch({
-    headless: true,
-    args: ["--no-sandbox", "--disable-setuid-sandbox"],
-  });
-  console.log("end start puppeteer")
-  console.log("new page puppeteer")
+
+  const browser = await playwright.chromium.launch(
+    {headless: true,}
+  );
   const page = await browser.newPage();
   console.log(SELF_BASE_URL)
-  await page.goto(`${SELF_BASE_URL}/${id}`, {
-    waitUntil: "networkidle2",
-  });
-  console.log("create pdf puppeteer")
+  await page.goto(`${SELF_BASE_URL}/${id}`);
   const pdf = await page.pdf({ format: "A4" });
   await browser.close();
-  console.log(pdf)
-  
+
   res.set({
     "Content-Type": "application/pdf",
     "Content-Disposition": `attachment; filename=boleto-${id}.pdf`,
