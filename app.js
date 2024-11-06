@@ -166,17 +166,23 @@ app.get("/pdf/:id", async (req, res) => {
   if (!boleto) {
     return res.status(404).send("Boleto não encontrado.");
   }
+  console.log("start puppeteer")
   const browser = await puppeteer.launch({
     headless: true,
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });
+  console.log("end start puppeteer")
+  console.log("new page puppeteer")
   const page = await browser.newPage();
+  console.log(SELF_BASE_URL)
   await page.goto(`${SELF_BASE_URL}/${id}`, {
     waitUntil: "networkidle2",
   });
+  console.log("create pdf puppeteer")
   const pdf = await page.pdf({ format: "A4" });
   await browser.close();
-
+  console.log(pdf)
+  
   res.set({
     "Content-Type": "application/pdf",
     "Content-Disposition": `attachment; filename=boleto-${id}.pdf`,
