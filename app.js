@@ -13,8 +13,10 @@ dotenv.config();
 mongoose.connect(process.env.DATABASE_URL);
 
 const db = mongoose.connection;
-const SELF_BASE_URL =
-  process.env.SELF_BASE_URL || "https://boleto-feirao.s1solucoes.com.br";
+const BASE_URL_BOLETO =
+  process.env.BASE_URL_BOLETO || "https://boleto-feirao.s1solucoes.com.br";
+
+const BASE_URL_CARNE = process.env.BASE_URL_CARNE || "https://carne-feirao.s1solucoes.com.br";
 
 db.on("error", console.error.bind(console, "Erro na conexão ao MongoDB:"));
 db.once("open", function () {
@@ -69,7 +71,7 @@ app.get("/carne/:store/:contract/:cpf", async (req, res) => {
   const cpfFormated = cpf.replace(/\D/g, "");
   try {
     const api_response = await fetch(
-      `https://carne-feirao.s1solucoes.com.br/v1/booklet/${store}/${contract}/${cpfFormated}`
+      `${BASE_URL_CARNE}/v1/booklet/${store}/${contract}/${cpfFormated}`
     );
     let data = await api_response.json();
     console.log("retorno da api de carne completa----------");
@@ -77,7 +79,7 @@ app.get("/carne/:store/:contract/:cpf", async (req, res) => {
     data = data.details.details;
     console.log("Consultando api ----------");
     console.log(
-      `https://carne-feirao.s1solucoes.com.br/v1/booklet/${store}/${contract}/${cpfFormated}\n\n\n`
+      `${BASE_URL_CARNE}/v1/booklet/${store}/${contract}/${cpfFormated}\n\n\n`
     );
     console.log("retorno da api de carne----------");
     console.log(data);
@@ -139,7 +141,7 @@ app.get("/carne/pdf/:store/:contract/:cpf", async (req, res) => {
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
     const page = await browser.newPage();
-    await page.goto(`${SELF_BASE_URL}/carne/${store}/${contract}/${cpf}`, {
+    await page.goto(`${BASE_URL_BOLETO}/carne/${store}/${contract}/${cpf}`, {
       waitUntil: "networkidle2",
     });
     const pdf = await page.pdf({ format: "A4" });
@@ -171,8 +173,8 @@ app.get("/pdf/:id", async (req, res) => {
     {headless: true,}
   );
   const page = await browser.newPage();
-  console.log(SELF_BASE_URL)
-  await page.goto(`${SELF_BASE_URL}/${id}`);
+  console.log(BASE_URL_BOLETO)
+  await page.goto(`${BASE_URL_BOLETO}/${id}`);
   const pdf = await page.pdf({ format: "A4" });
   await browser.close();
 
