@@ -15,6 +15,7 @@ mongoose.connect(process.env.DATABASE_URL);
 const db = mongoose.connection;
 const SELF_BASE_URL =
   process.env.SELF_BASE_URL || "https://boleto-feirao.s1solucoes.com.br";
+const CARNE_API_URL = process.env.CARNE_API_URL || "https://carne-feirao.s1solucoes.com.br";
 
 db.on("error", console.error.bind(console, "Erro na conexão ao MongoDB:"));
 db.once("open", function () {
@@ -69,7 +70,7 @@ app.get("/carne/:store/:contract/:cpf", async (req, res) => {
   const cpfFormated = cpf.replace(/\D/g, "");
   try {
     const api_response = await fetch(
-      `https://carne-feirao.s1solucoes.com.br/v1/booklet/${store}/${contract}/${cpfFormated}`
+      `${CARNE_API_URL}/v1/booklet/${store}/${contract}/${cpfFormated}`
     );
     let data = await api_response.json();
     console.log("retorno da api de carne completa----------");
@@ -77,7 +78,7 @@ app.get("/carne/:store/:contract/:cpf", async (req, res) => {
     data = data.details.details;
     console.log("Consultando api ----------");
     console.log(
-      `https://carne-feirao.s1solucoes.com.br/v1/booklet/${store}/${contract}/${cpfFormated}\n\n\n`
+      `${CARNE_API_URL}/v1/booklet/${store}/${contract}/${cpfFormated}\n\n\n`
     );
     console.log("retorno da api de carne----------");
     console.log(data);
@@ -134,20 +135,18 @@ app.get("/carne/:store/:contract/:cpf", async (req, res) => {
 app.get("/carne/pdf/:store/:contract/:cpf", async (req, res) => {
   const { store, contract, cpf } = req.params;
   try {
-    const browser = await puppeteer.launch({
-      headless: true,
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
-    });
+    const browser = await playwright.chromium.launch(
+      {headless: true,}
+    );
     const page = await browser.newPage();
-    await page.goto(`${SELF_BASE_URL}/carne/${store}/${contract}/${cpf}`, {
-      waitUntil: "networkidle2",
-    });
+    console.log(SELF_BASE_URL)
+    await page.goto(`${SELF_BASE_URL}/carne/${store}/${contract}/${cpf}`);
     const pdf = await page.pdf({ format: "A4" });
     await browser.close();
-
+  
     res.set({
       "Content-Type": "application/pdf",
-      "Content-Disposition": `attachment; filename=carne-${contract}.pdf`,
+      "Content-Disposition": `attachment; filename=boleto-${id}.pdf`,
       "Content-Length": pdf.length,
     });
 
