@@ -1,6 +1,6 @@
 {{#each bils}}
 <div class="boleto">
-    <div style=" width: 4cm;">
+    <div style="min-width: 4cm;">
         <div class="left_section ">
             <h5 style="margin: 0;" class="pagador">Recibo do pagador</h5>
         </div>
@@ -47,11 +47,32 @@
         </div>
         <div class="center-content">
             <div class="colum">
-                <div class="row">
-                    <h1>Local de pagamento</h1>
-                    <p id="">
-                        Pagável em qualquer banco ou em uma de nossas lojas.
-                    </p>
+                <div class="rowgrid">
+
+                    <div class="block">
+                        <h1>Local de pagamento</h1>
+                        <p id="" style="font-size: 10px">
+                            Pagável em qualquer banco ou em uma de nossas lojas.
+                        </p>
+                    </div>
+                    <div class="block" style="margin-left: auto;">
+                        <h1>Carteira</h1>
+                        <p>
+                            {{this.bill.cidtfdProdCobr}}
+                        </p>
+                    </div>
+                    <div class="block">
+                        <h1>Moeda</h1>
+                        <p id="">
+                            {{this.bill..especMoeda10}}
+                        </p>
+                    </div>
+                    <div class="block">
+                        <h1>Quantidade</h1>
+                        <p id="">
+                            {{this.bill.qtdeMoeda10}}
+                        </p>
+                    </div>
                 </div>
                 <div class="row">
                     <h1>Beneficiário final</h1>
@@ -59,90 +80,74 @@
                         {{this.bill.cedente10}} - <span>05.391.441/0001-85</span>
                     </p>
                 </div>
-                <div class="rowgrid">
-                    <div class="block">
-                        <h1>Data do documento</h1>
-                        <p class="date_format">
-                            {{this.bill.dataEmis10}}
-                        </p>
-                    </div>
-                    <div class="block">
-                        <h1>N do documento</h1>
-                        <p id="">
-                            {{this.bill.ctitloCobrCdent}}
-                        </p>
-                    </div>
-                    <div class="block">
-                        <h1>Espécie Doc</h1>
-                        <p id="">
-                            {{this.bill.especDocto10}}
-                        </p>
-                    </div>
-                    <div class="block">
-                        <h1>Aceite</h1>
-                        <p id="">
-                            {{this.bill.aceite10}}
-                        </p>
-                    </div>
-                    <div class="block">
-                        <h1>Data processamento</h1>
-                        <p class="date_format">
-                            {{this.bill.dataReg10}}
-                        </p>
-                    </div>
-                </div>
+
                 <div class="qrcoderow">
                     <div class="left" style="flex: 1">
-                        <div class="top">
+                        <div class="rowgrid">
                             <div class="block">
-                                <h1>Uso do banco</h1>
-                                <p style="color: transparent;">.</p>
-                            </div>
-                            <div class="block">
-                                <h1>Carteira</h1>
-                                <p>
-                                    {{bill.cidtfdProdCobr}}
+                                <h1>Data do documento</h1>
+                                <p class="date_format">
+                                    {{this.bill.dataEmis10}}
                                 </p>
                             </div>
                             <div class="block">
-                                <h1>Moeda</h1>
+                                <h1>N do documento</h1>
                                 <p id="">
-                                    {{bill.especMoeda10}}
+                                    {{this.bill.ctitloCobrCdent}}
                                 </p>
                             </div>
                             <div class="block">
-                                <h1>Quantidade</h1>
+                                <h1>Espécie Doc</h1>
                                 <p id="">
-                                    {{bill.qtdeMoeda10}}
+                                    {{this.bill.especDocto10}}
                                 </p>
                             </div>
                         </div>
                         <div class="bot">
-                            <h1>
-                                Pagador(a)
-                            </h1>
-                            <p id="" style="font-size: 8px;">
-                                {{this.bill.nomeSacado10}}<br>
-                                CPF/CNPJ: <span
-                                    class="cpfOrCnpj">{{this.bill.cnpjSacador10}}</span><br>
-                                ENDEREÇO: {{this.bill.endSacado10}}
-                            </p>
+                            <div class="rowgrid">
+
+                                <div class="block">
+                                    <h1 style="font-size: 10px !important;">Aceite</h1>
+                                    <p style="font-size: 10px;">
+                                        {{this.bill.aceite10}}
+                                    </p>
+                                </div>
+                                <div class="block">
+                                    <h1 style="font-size: 10px;">Data processamento</h1>
+                                    <p class="date_format" style="font-size: 10px;">
+                                        {{this.bill.dataReg10}}
+                                    </p>
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 4px; margin-bottom: 4px;">
+                                <h1>
+                                    Pagador(a)
+                                </h1>
+                                <p id="" style="font-size: 8px;">
+                                    {{this.bill.nomeSacado10}}<br>
+                                    CPF/CNPJ: <span class="cpfOrCnpj">{{this.bill.cnpjSacador10}}</span><br>
+                                    ENDEREÇO: {{this.bill.endSacado10}}
+                                </p>
+                            </div>
                             <span>
                                 {{this.messageBill}}
                             </span>
                         </div>
                     </div>
                     <div class="right">
-                        <h1>Pague via QrCode pix</h1>
+                            <h1
+                                style="font-size: 9px;"
+                            >Pague via QrCode pix </h1>
                         <input type="hidden" value="{{this.bill.wqrcdPdraoMercd}}" id="{{this.id}}_qrcode_value"
                             class="qrcode_value">
                         <div id="{{this.id}}_qrcode"></div>
                     </div>
                 </div>
-                <div style="width: 100%; padding-top: 1mm;">
-                    <input type="hidden" value="{{this.bill.linhaDig10}}" id="{{this.id}}_barcode_value"
-                        class="barcode_value">
-                    <svg class="barcode_{{this.id}}"></svg>
+                <div style="width: 100%; padding-top: 1mm;
+                    position: relative;
+                ">
+                    <input type="hidden" value="{{this.bill.linhaDig10}}" id="{{id}}_barcode_value" class="barcode_value">
+                    <svg class="barcode_{{this.id}}" style="width: 98%;"></svg>
                 </div>
             </div>
             <div class="colum">
@@ -183,7 +188,7 @@
         </div>
 
     </div>
-    
+
 
     <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
     {{!-- moment --}}

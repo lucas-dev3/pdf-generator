@@ -191,7 +191,7 @@
         }
 
         .qrcoderow .left .bot {
-            padding: 1mm;
+            padding: 0mm;
         }
 
         .qrcoderow .left .bot p {
@@ -254,8 +254,8 @@
                 return;
             }
             var img = document.createElement('img');
-            img.style.width = '80px';
-            img.style.height = '80px';
+            img.style.width = '100px';
+            img.style.height = '100px';
             img.src = url;
 
             qrcode.appendChild(img)
@@ -290,8 +290,7 @@
             , {
                 format: "CODE128",
                 displayValue: false,
-                width: 1.3,
-                height: 30,
+                height: 50,
                 margin: 0,
             });
     })
