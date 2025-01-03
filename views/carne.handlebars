@@ -64,7 +64,7 @@
                     <div class="block">
                         <h1>Moeda</h1>
                         <p id="">
-                            {{this.bill..especMoeda10}}
+                            {{this.bill.especMoeda10}}
                         </p>
                     </div>
                     <div class="block">
@@ -143,11 +143,11 @@
                         <div id="{{this.id}}_qrcode"></div>
                     </div>
                 </div>
-                <div style="width: 100%; padding-top: 1mm;
+                <div style="width: 100%; padding-top: 0mm;
                     position: relative;
                 ">
-                    <input type="hidden" value="{{this.bill.linhaDig10}}" id="{{id}}_barcode_value" class="barcode_value">
-                    <svg class="barcode_{{this.id}}" style="width: 98%;"></svg>
+                    <input type="hidden" value="{{this.bill.linhaDig10}}" id="{{this.id}}_barcode_value" class="barcode_value">
+                    <svg class="barcode_{{this.id}}" style="width: 98%; margin-top: -4px;"></svg>
                 </div>
             </div>
             <div class="colum">
